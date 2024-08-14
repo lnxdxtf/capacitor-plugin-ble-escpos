@@ -1,0 +1,30 @@
+{
+  "name": "ble-cap",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "dev-android": "bun run build && bunx cap sync && bunx cap run android",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@capacitor-community/bluetooth-le": "^2.3.0",
+    "@capacitor/android": "^4.8.1",
+    "@capacitor/core": "^4.8.1",
+    "capacitor-plugin-ble-escpos": "link:capacitor-plugin-ble-escpos",
+    "vue": "^3.4.35"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^4.8.1",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.10",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0",
+    "vue-tsc": "^2.0.29"
+  }
+}
