@@ -50,32 +50,46 @@
 </template>
 
 <script lang="ts">
+//@ts-ignore
 import { BleDevice } from '@capacitor-community/bluetooth-le';
-import {Ble, ESCPOS_LineFeed, ESCPOS_AlignLeft,  PrinterBLE, } from "capacitor-plugin-ble-escpos"
+import { Ble, ESCPOS_LineFeed, PrinterBLE, } from "capacitor-plugin-ble-escpos"
 
 export default {
 
   data() {
     return {
-      ble: new Ble(),
+      ble: null,
     }
   },
 
   methods: {
 
-    async scan() {
-      await this.ble.scan([]);
-    },
-
     async connect(device: BleDevice) {
-      await this.ble.connect(device);
-      let printer = new PrinterBLE(this.ble.device!)
-      await printer.print([ESCPOS_LineFeed.repeat(5), 'Hello World',])
+      await Ble.connect(device)
+      let printer = new PrinterBLE(device)
+      function randomStr(len: number) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        let result = ''
+        for (let i = 0; i < len; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length))
+        }
+        result += ' '
+        return result
+      }
+
+      const a1 = Array.from({ length: 100 }, (_, idx) => `${idx} ${randomStr(5).repeat(5)} ${ESCPOS_LineFeed}`)
+      const data = [...a1, ESCPOS_LineFeed, ESCPOS_LineFeed, ESCPOS_LineFeed]
+      console.log(data);
+
+      await printer.print(data);
     }
 
   },
   async mounted() {
-
+    //@ts-ignore
+    this.ble = new Ble()
+    //@ts-ignore
+    this.ble!.scan([])
   }
 }
 

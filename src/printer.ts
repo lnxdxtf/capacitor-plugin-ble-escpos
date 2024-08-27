@@ -1,7 +1,8 @@
-import { BleCharacteristic, BleClient, BleDevice, BleService, textToDataView } from "@capacitor-community/bluetooth-le"
+import { type BleDevice } from "@capacitor-community/bluetooth-le"
+import { Ble } from "./ble"
 
 //COMMANDS ESC/POS
-export const ESCPOS_LineFeed:string = "\n"
+export const ESCPOS_LineFeed:string = "\x0A"
 
 export const ESCPOS_FontNormal:string = "\x1B\x45\x00"
 export const ESCPOS_FontBold:string = "\x1B\x45\x01"
@@ -40,31 +41,19 @@ export const THERMAL_PRINTER_CHR_0: string = "2af0"
 export const THERMAL_PRINTER_CHR_1: string = "2af1"
 
 export class PrinterBLE {
-    private _device: BleDevice 
+    public device: BleDevice 
     
     constructor(device:BleDevice) {
-        this._device = device
+        this.device = device
     }
 
-
-    private async _connected():Promise<boolean> {
-        const devices:BleDevice[] = await BleClient.getConnectedDevices([]);
-        const found = devices.find((device:BleDevice) => device.deviceId === this._device?.deviceId)
-        return found ? true : false
-    }
 
     public async print(raw: string[]) {
-        if (!await this._connected) {
+        if (!await Ble.connected(this.device)) {
             throw new Error("Printer not connected")
         }
-
-        const data:DataView = textToDataView(raw.join(''))
-        const services:BleService[] = await BleClient.getServices(this._device.deviceId)
-        const service = services.find((s: BleService) => s.uuid === THERMAL_PRINTER_SERVICE );
         
-        const chr = service?.characteristics.find((c:BleCharacteristic) => c.uuid.includes(THERMAL_PRINTER_CHR_1))
-
-        await BleClient.write(this._device.deviceId, service!.uuid, chr!.uuid, data)
+        await Ble.send(this.device, THERMAL_PRINTER_SERVICE, THERMAL_PRINTER_CHR_1, raw)
     }
 
 }	
