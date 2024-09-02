@@ -29,7 +29,7 @@ bunx cap sync
 
 ### Usage
 ```ts
-import { Ble, ESCPOS_LineFeed, ESCPOS_AlignLeft, ESCPOS_AlignCenter, ESCPOS_AlignRight, PrinterBLE } from "capacitor-plugin-ble-escpos";
+import { Ble, ESCPOSCOMMANDS, PrinterBLE } from "capacitor-plugin-ble-escpos";
 
 async function main() {
     // Array of Bluetooth service UUIDs to filter scanned devices
@@ -50,16 +50,16 @@ async function main() {
 
     // Build your print job using ESC/POS commands
     const raw: string[] = [
-        ESCPOS_LineFeed.repeat(2),
-        ESCPOS_AlignCenter,
+        ESCPOSCOMMANDS.LineFeed.repeat(2),
+        ESCPOSCOMMANDS.AlignCenter,
         "HELLO WORLD CENTER",
-        ESCPOS_LineFeed.repeat(2),
-        ESCPOS_AlignRight,
+        ESCPOSCOMMANDS.LineFeed.repeat(2),
+        ESCPOSCOMMANDS.AlignRight,
         "HELLO WORLD RIGHT",
-        ESCPOS_LineFeed.repeat(2),
-        ESCPOS_AlignLeft,
+        ESCPOSCOMMANDS.LineFeed.repeat(2),
+        ESCPOSCOMMANDS.AlignLeft,
         "HELLO WORLD LEFT",
-        ESCPOS_LineFeed.repeat(2),
+        ESCPOSCOMMANDS.LineFeed.repeat(2),
     ];
 
     // Send the print job to the printer
