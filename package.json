@@ -1,25 +1,41 @@
 {
   "name": "capacitor-plugin-ble-escpos",
-  "module": "index.ts",
-  "author": "lnxdxtf",
   "version": "0.0.2",
   "description": "Capacitor plugin for Bluetooth Low Energy (BLE) and ESC/POS printer",
+  "author": "lnxdxtf",
+
+  "type": "module",
+
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+
   "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
     "example": "cd example/ble-cap && bun install && bun run dev-android",
     "example-desktop": "cd example/ble-cap && bun install && bun run dev"
   },
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/qrcode": "^1.5.5"
-  },
+
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^7.0.0",
     "@capacitor/android": "^7.0.0",
     "@capacitor/core": "^7.0.0",
     "qrcode": "^1.5.4"
   },
-  "peerDependencies": {
+
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/qrcode": "^1.5.5",
+    "tsup": "^8.5.1",
     "typescript": "^5.0.0"
   }
 }

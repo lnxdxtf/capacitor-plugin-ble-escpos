@@ -58,17 +58,18 @@ export class Ble {
         if (!svc) {
             throw new Error("Service not found")
         }
-        console.log(svc);
         let chr = svc?.characteristics.find((c: BleCharacteristic) => c.uuid.includes(chr_target))
-        console.log(chr);
         
         if (!chr) {
             throw new Error("Characteristic not found")
         }     
-        for (let i = 0; i <= raw.length; i += CHUNK_SIZE) {
+        for (let i = 0; i < raw.length; i += CHUNK_SIZE) {
             const chunk = raw.slice(i, i + CHUNK_SIZE)
-            const data = textToDataView(chunk.join(''))
-            await BleClient.write(device.deviceId, svc.uuid, chr.uuid, data, {timeout: timeout}) 
+                
+            const encoder = new TextEncoder()
+            const data = encoder.encode(chunk.join(''))
+            
+            await BleClient.write(device.deviceId, svc.uuid, chr.uuid, new DataView(data.buffer), {timeout: timeout}) 
             await this._delay(50)
         }
 
