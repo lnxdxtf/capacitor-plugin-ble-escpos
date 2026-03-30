@@ -2,7 +2,7 @@
   "name": "capacitor-plugin-ble-escpos",
   "module": "index.ts",
   "author": "lnxdxtf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Capacitor plugin for Bluetooth Low Energy (BLE) and ESC/POS printer",
   "scripts": {
     "example": "cd example/ble-cap && bun install && bun run dev-android",
@@ -14,9 +14,9 @@
     "@types/qrcode": "^1.5.5"
   },
   "dependencies": {
-    "@capacitor-community/bluetooth-le": "^2.3.0",
-    "@capacitor/android": "^4.8.1",
-    "@capacitor/core": "^4.8.1",
+    "@capacitor-community/bluetooth-le": "^7.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
     "qrcode": "^1.5.4"
   },
   "peerDependencies": {
